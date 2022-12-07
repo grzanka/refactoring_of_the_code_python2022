@@ -1,5 +1,6 @@
 import magpylib as magpy
 import numpy as np
+import sys
 
 length_of_wire_mm = 400.0  # [mm]
 angle_rad = np.pi/2
@@ -11,8 +12,8 @@ def setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm):
     #przestrzenie liniowe (zbiory wartosci) length
     points_on_straight_part = np.linspace(0.0, length_of_wire_mm, 100)
     points_on_arc = np.linspace(0.0, angle_rad, 100)
-    print(points_on_straight_part)
-    print(points_on_arc)
+    # print(points_on_straight_part)
+    # print(points_on_arc)
 
     #listy/tablice punktow przewodu:
     current_angle_rad = np.pi/2-angle_rad/2
@@ -58,6 +59,7 @@ def setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm):
 
 
 def write_magnetic_field_to_file(filename, coil):
+    print(f"Writing magnetic field to file: {filename}")
     f = open(filename,'w')
     # write length of wire, angle, current, radius to file
     f.write(f"length = {length_of_wire_mm} mm, angle = {angle_rad} rad, I = {current_A} A, radius = {radius_mm} mm\n")
@@ -67,12 +69,23 @@ def write_magnetic_field_to_file(filename, coil):
                 fx, fy, fz = magpy.getB(coil, [x,y,z])
                 f.write(f"{x} {y} {z} {fx} {fy} {fz}\n")
     f.close()
+    print("Done writing to file")
 
 
 
 if __name__ == '__main__':
-    coil = setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm)
 
-    magpy.show(coil)
+    args = sys.argv
 
-    write_magnetic_field_to_file("magnetic_field.txt", coil)
+    if len(args) != 2:
+        print("Usage: python main.py <command>")
+    else:
+        command = args[1]
+
+        coil = setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm)
+        if command == "show":
+            magpy.show(coil)
+        elif command == "write":
+            write_magnetic_field_to_file("magnetic_field.txt", coil)
+        else:
+            print("Unknown command")
