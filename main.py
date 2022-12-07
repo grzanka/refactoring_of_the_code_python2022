@@ -50,6 +50,7 @@ def setup_coil(length_of_wire_mm : float = 400., angle_rad : float = np.pi/2, cu
 
 
     coil = magpy.Collection(wire1_1, wire1_2, wire1_3, wire1_4, wire2_1, wire2_2, wire2_3, wire2_4)
+    
     return coil
 
 
