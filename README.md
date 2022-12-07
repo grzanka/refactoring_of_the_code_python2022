@@ -33,7 +33,12 @@ pip install -r requirements.txt
 
 ## Usage
 
-To run the code, run the following command in the terminal:
+To run the code, and visualize the coil, run the following command in the terminal:
 ```bash
-python main.py
+python main.py show
+```
+
+To save the magnetic field in the text file, run the following command in the terminal:
+```bash
+python main.py write
 ```
