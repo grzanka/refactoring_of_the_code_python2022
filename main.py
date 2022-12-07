@@ -2,14 +2,9 @@ import magpylib as magpy
 import numpy as np
 import sys
 
-length_of_wire_mm = 400.0  # [mm]
-angle_rad = np.pi/2
-current_A = 100.0
-radius_mm = 110.0
+def setup_coil(length_of_wire_mm : float = 400., angle_rad : float = np.pi/2, current_A : float = 100., radius_mm : float = 110.) -> magpy.Collection:
+    """Setup coil with given parameters."""
 
-
-def setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm):
-    #przestrzenie liniowe (zbiory wartosci) length
     points_on_straight_part = np.linspace(0.0, length_of_wire_mm, 100)
     points_on_arc = np.linspace(0.0, angle_rad, 100)
     # print(points_on_straight_part)
@@ -58,11 +53,13 @@ def setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm):
     return coil
 
 
-def write_magnetic_field_to_file(filename, coil):
+def write_magnetic_field_to_file(filename : str, coil : magpy.Collection):
+    """Write magnetic field to file."""
+
     print(f"Writing magnetic field to file: {filename}")
     f = open(filename,'w')
     # write length of wire, angle, current, radius to file
-    f.write(f"length = {length_of_wire_mm} mm, angle = {angle_rad} rad, I = {current_A} A, radius = {radius_mm} mm\n")
+    # f.write(f"length = {length_of_wire_mm} mm, angle = {angle_rad} rad, I = {current_A} A, radius = {radius_mm} mm\n")
     for x in range (-150, 150, 2):
         for y in range (-150, 150, 2):
             for z in range (0, 400, 2):
@@ -82,7 +79,7 @@ if __name__ == '__main__':
     else:
         command = args[1]
 
-        coil = setup_coil(length_of_wire_mm, angle_rad, current_A, radius_mm)
+        coil = setup_coil(angle_rad=3*np.pi/4)
         if command == "show":
             magpy.show(coil)
         elif command == "write":
